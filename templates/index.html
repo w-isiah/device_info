@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Device Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 30px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            display: inline-block;
+            text-align: left;
+        }
+        li {
+            margin: 10px 0;
+            padding: 8px 15px;
+            background-color: #f0f0f0;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Your Device Information</h2>
+    <ul id="device-info">
+        <li>Loading device information...</li>
+    </ul>
+
+    <script>
+        async function fetchDeviceInfo() {
+            try {
+                const response = await fetch("/api/device");
+                const info = await response.json();
+                const list = document.getElementById("device-info");
+
+                list.innerHTML = ""; // Clear loading text
+
+                for (const key in info) {
+                    const li = document.createElement("li");
+                    li.textContent = `${key}: ${info[key]}`;
+                    list.appendChild(li);
+                }
+            } catch (err) {
+                console.error("Error fetching device info:", err);
+            }
+        }
+
+        fetchDeviceInfo();
+    </script>
+</body>
+</html>
